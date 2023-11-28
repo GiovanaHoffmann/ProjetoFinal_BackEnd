@@ -1,0 +1,41 @@
+classDiagram
+
+class People {
+    - Nome
+    - Email
+    - Código (ID)
+    - Senha
+  }
+
+
+  class Employee {
+     - Telefone
+     - Setor
+     + Login()
+  }
+
+
+  class Product {
+    - Nome
+    - ID
+    - Artista
+    - Gênero
+    - Ano Lanç.
+    - Tipo
+    - Preço
+  }
+
+  class Customer {
+  }
+
+  class Setor{
+    - Nome
+    - Código
+  }
+
+  People <|-- Employee
+  People <|-- Customer
+
+  Employee "1" -- "1..n" Setor : Atua em
+  Employee "1" -- "1..n" Product : Altera
+  Customer "1" -- "1..n" Product : Compra
