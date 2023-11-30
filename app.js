@@ -1,18 +1,18 @@
 const express = require('express');
 const app = express();
 
-const port = 3001;
+const dotenv = require('dotenv').config();
 
-const dotenv = require('dotenv').config;
+const PORT = process.env.PORT;
 
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost:27017/estoque")
+mongoose.connect(process.env.MONGODB_LINK)
 .then(async () => {
-    console.log('Datbase conected!');
+    console.log('Database conected!');
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`)
+    })
   }).catch(error => {
     console.error('Error connecting MongoDB:', error.message);
   });
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`)
-})
