@@ -22,3 +22,5 @@ Sequelize(process.env.MYSQL_LINK);
   .catch(err => {
     console.error('Error connecting to the database:', err);
   });
+
+  module.exports = { Sequelize, sequelize };
