@@ -5,14 +5,20 @@ const dotenv = require('dotenv').config();
 
 const PORT = process.env.PORT;
 
-const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_LINK)      
-.then(async () => {
-    console.log('Database conected!');
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`)
-    })
-  }).catch(error => {
-    console.error('Error connecting MongoDB:', error.message);
-  });
+const Sequelize = require('sequelize');
+const sequelize = new 
+Sequelize(process.env.MYSQL_LINK);
 
+ sequelize.authenticate()
+  .then(() => {
+    console.log('MySQL connected.');
+    
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+
+    return sequelize.query('CREATE DATABASE IF NOT EXISTS estoque;');
+  })
+  .catch(err => {
+    console.error('Error connecting to the database:', err);
+  });
