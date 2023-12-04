@@ -10,3 +10,5 @@ const Funcionario = sequelize.define('Funcionario', {
   });
   
   Funcionario.belongsTo(Usuario); // Relacionamento entre Funcionário e Usuário
+
+  module.exports = Funcionario;
