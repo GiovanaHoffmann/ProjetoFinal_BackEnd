@@ -5,4 +5,6 @@ const Gerente = sequelize.define('Gerente', {
     //
   });
   
-  Gerente.belongsTo(Usuario); // Relacionamento entre Funcionário e Usuário
+  Gerente.belongsTo(Usuario); // Relacionamento 
+
+  module.exports = Gerente;
