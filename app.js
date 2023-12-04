@@ -5,11 +5,11 @@ const dotenv = require('dotenv').config();
 
 const PORT = process.env.PORT;
 
-const Sequelize = require('sequelize');
+/*const Sequelize = require('sequelize');
 const sequelize = new 
-Sequelize(process.env.MYSQL_LINK);
+Sequelize(process.env.MYSQL_LINK);*/
 
- sequelize.authenticate()
+ /*sequelize.authenticate()
   .then(() => {
     console.log('MySQL connected.');
     
@@ -21,6 +21,6 @@ Sequelize(process.env.MYSQL_LINK);
   })
   .catch(err => {
     console.error('Error connecting to the database:', err);
-  });
+  });*/
 
-  module.exports = { Sequelize, sequelize };
+  //module.exports = { Sequelize, sequelize };
