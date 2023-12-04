@@ -1,15 +1,18 @@
 const express = require('express');
 const app = express();
+const sequelize = require('./config/database');
 
 const dotenv = require('dotenv').config();
-
 const PORT = process.env.PORT;
 
-/*const Sequelize = require('sequelize');
-const sequelize = new 
-Sequelize(process.env.MYSQL_LINK);*/
+// Configurações do Express, Middlewares e Body Parser
+app.use(express.json());
 
- /*sequelize.authenticate()
+//rotas
+app.use('/products', require('./routes/produtoRoutes'));
+
+
+ sequelize.authenticate()
   .then(() => {
     console.log('MySQL connected.');
     
@@ -21,6 +24,4 @@ Sequelize(process.env.MYSQL_LINK);*/
   })
   .catch(err => {
     console.error('Error connecting to the database:', err);
-  });*/
-
-  //module.exports = { Sequelize, sequelize };
+  });
