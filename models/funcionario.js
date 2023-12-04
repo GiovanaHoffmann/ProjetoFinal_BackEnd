@@ -1,6 +1,7 @@
 //const { Sequelize, sequelize } = require('C:.\ProjetoFinal_BackEnd\app.js');
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const Usuario = require('../models/usuario');
 
 const Funcionario = sequelize.define('Funcionario', {
     acessoSetor: {
@@ -9,6 +10,6 @@ const Funcionario = sequelize.define('Funcionario', {
     },
   });
   
-  Funcionario.belongsTo(Usuario); // Relacionamento entre Funcionário e Usuário
+Funcionario.belongsTo(Usuario); // Relacionamento entre Funcionário e Usuário
 
-  module.exports = Funcionario;
+module.exports = Funcionario;
