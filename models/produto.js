@@ -1,7 +1,7 @@
 //const { Sequelize, sequelize } = require('C:.\ProjetoFinal_BackEnd\app.js');
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Funcionario = require('../models/funcionario');
+const Funcionario = require('./funcionario');
 
 const Produto = sequelize.define('Produto', {
     id: {
@@ -18,7 +18,7 @@ const Produto = sequelize.define('Produto', {
       allowNull: false,
     },
     genero: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING,    
       allowNull: false,
     },
     anoLancamento: {
@@ -30,7 +30,7 @@ const Produto = sequelize.define('Produto', {
       allowNull: false,
     },
     tipo: {
-      type: DataTypes.ENUM('album', 'dvd', 'cd'),
+      type: DataTypes.ENUM('vinil', 'dvd', 'cd'),
       allowNull: false,
     },
   });
@@ -38,5 +38,7 @@ const Produto = sequelize.define('Produto', {
 
 Funcionario.hasMany(Produto, { as: 'estoque', foreignKey: 'FuncionarioId' });
 Produto.belongsTo(Funcionario);
+Produto.belongsTo(Funcionario);
+Funcionario.hasMany(Produto);
 
 module.exports = Produto;

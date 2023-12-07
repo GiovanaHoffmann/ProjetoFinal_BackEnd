@@ -1,10 +1,11 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const Usuario = require('./Usuario');
 
 const Gerente = sequelize.define('Gerente', {
-    //
-  });
-  
-  Gerente.belongsTo(Usuario); // Relacionamento 
+  // Atributos do gerente, se necessário
+});
 
-  module.exports = Gerente;
+Gerente.belongsTo(Usuario);
+
+module.exports = Gerente;

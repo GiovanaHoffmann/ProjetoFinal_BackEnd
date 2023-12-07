@@ -1,5 +1,3 @@
-//const { Sequelize, sequelize } = require('\ProjetoFinal_BackEnd\app.js');
-
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
@@ -21,6 +19,10 @@ const Usuario = sequelize.define('Usuario', {
   senha: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  isAdmin: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
 });
 
