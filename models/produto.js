@@ -38,7 +38,5 @@ const Produto = sequelize.define('Produto', {
 
 Funcionario.hasMany(Produto, { as: 'estoque', foreignKey: 'FuncionarioId' });
 Produto.belongsTo(Funcionario);
-Produto.belongsTo(Funcionario);
-Funcionario.hasMany(Produto);
 
 module.exports = Produto;
