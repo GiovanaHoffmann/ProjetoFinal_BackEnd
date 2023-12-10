@@ -2,18 +2,31 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const secretKey = require('../config/auth');
 const Usuario = require('../models/Usuario');
+const Funcionario = require('../models/funcionario');
+const Gerente = require('../models/gerente');
 
 exports.login = async (req, res) => {
   try {
-    const { email, senha } = req.body;
+    const { email, senha, userType } = req.body;
 
-    const usuario = await Usuario.findOne({ where: { email } });
+    let model;
+    if (userType === 'usuario') {
+      model = Usuario;
+    } else if (userType === 'funcionario') {
+      model = Funcionario;
+    } else if (userType === 'gerente') {
+      model = Gerente;
+    } else {
+      return res.status(400).json({ error: 'Tipo de usuário inválido' });
+    }
+
+    const usuario = await model.findOne({ where: { email } });
 
     if (!usuario || !(await bcrypt.compare(senha, usuario.senha))) {
       return res.status(401).json({ error: 'Credenciais inválidas.' });
     }
 
-    const token = jwt.sign({ userId: usuario.id }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: usuario.id, userType }, secretKey);
 
     res.json({ token });
   } catch (error) {

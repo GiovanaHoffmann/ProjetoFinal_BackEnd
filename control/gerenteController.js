@@ -60,8 +60,8 @@ exports.excluirProduto = async (req, res) => {
 // Métodos para CRUD de funcionários
 exports.criarFuncionario = async (req, res) => {
   try {
-    const { acessoSetor, UsuarioId } = req.body;
-    const novoFuncionario = await Funcionario.create({ acessoSetor, UsuarioId });
+    const { setor, UsuarioId } = req.body;
+    const novoFuncionario = await Funcionario.create({ setor, UsuarioId });
     res.status(201).json({ message: 'Funcionário criado com sucesso', funcionario: novoFuncionario });
   } catch (error) {
     res.status(500).json({ error: 'Erro ao criar funcionário' });
