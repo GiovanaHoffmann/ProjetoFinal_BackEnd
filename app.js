@@ -1,10 +1,8 @@
 const express = require('express');
 const app = express();
 const sequelize = require('./config/database');
-const Usuario = require('./models/Usuario');
-const Funcionario = require('./models/funcionario');
-const Gerente = require('./models/gerente');
-const Produto = require('./models/produto');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -12,6 +10,24 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+
+// Configurações do Swagger
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'API de Gestão de Estoque de uma loja de discos',
+      description: 'Documentação da API de Gestão de Estoque de uma loja de discos',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./routes/*.js'], // Caminho para os arquivos de definição Swagger
+};
+
+// Geração da documentação Swagger
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
+// Rota para exibir a documentação Swagger
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Rotas
 const authRoutes = require('./routes/authRoutes');
@@ -35,12 +51,12 @@ sequelize
   .then(() => {
     console.log('MySQL connected.');
 
-    // Sincronize os modelos com o banco de dados
-    sequelize.sync({ force: true }) // O uso de force: true irá forçar a criação das tabelas, cuidado com dados existentes
+    // Sincronização dos modelos com o banco de dados
+    sequelize.sync({ force: true }) // "force: true" - força a criação das tabelas.
       .then(() => {
         console.log('Banco de dados sincronizado.');
 
-        // Inicie o servidor após a sincronização bem-sucedida
+        // Inicialização do servidor
         app.listen(PORT, () => {
           console.log(`Server running on port ${PORT}`);
         });
@@ -50,30 +66,6 @@ sequelize
       });
   })
   .catch((err) => {
-    console.error('Error connecting to the database:', err);
+    console.error('Erro ao ao conectar com a base de dados:', err);
   });
 
-
-//Servidor e banco de dados
- /*sequelize.authenticate()
-  .then(() => {
-    console.log('MySQL connected.');
-    
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-
-    return sequelize.query('CREATE DATABASE IF NOT EXISTS estoque;');
-  })
-  .catch(err => {
-    console.error('Error connecting to the database:', err);
-  });
-
-  // Sincronização dos modelos com o banco de dados
-sequelize.sync({ force: true }) // "force: true" irá forçar a criação das tabelas
-.then(() => {
-  console.log('Banco de dados sincronizado.');
-})
-.catch((err) => {
-  console.error('Erro ao sincronizar o banco de dados:', err);
-});*/
