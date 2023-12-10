@@ -11,16 +11,23 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Configurações do Swagger
+// Configuração do Swagger
 const swaggerOptions = {
   swaggerDefinition: {
+    openapi: '3.0.0',
     info: {
       title: 'API de Gestão de Estoque de uma loja de discos',
       description: 'Documentação da API de Gestão de Estoque de uma loja de discos',
       version: '1.0.0',
     },
+    servers: [
+      {
+        url: 'http://localhost:3000', // Altere a URL conforme necessário
+        description: 'Servidor Local',
+      },
+    ],
   },
-  apis: ['./routes/*.js'], // Caminho para os arquivos de definição Swagger
+  apis: ['./routes/swaggerDef.js'], // Caminho para os arquivos de definição Swagger
 };
 
 // Geração da documentação Swagger

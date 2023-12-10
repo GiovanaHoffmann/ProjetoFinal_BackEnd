@@ -1,5 +1,6 @@
 const Funcionario = require('../models/funcionario');
 const Usuario = require('../models/Usuario');
+const Produto = require('../models/produto');
 
 exports.criarFuncionario = async (req, res) => {
   try {
@@ -20,7 +21,7 @@ exports.atualizarEstoque = async (req, res) => {
       return res.status(403).json({ error: 'Acesso não autorizado para funcionários' });
     }
 
-    const setorAcesso = funcionario.acessoSetor; 
+    const setorAcesso = funcionario.setor; 
 
     const productId = req.params.id;
     const produto = await Produto.findByPk(productId);
@@ -54,7 +55,7 @@ exports.criarEstoque = async (req, res) => {
       return res.status(403).json({ error: 'Acesso não autorizado para funcionários' });
     }
 
-    const setorAcesso = funcionario.acessoSetor; // Obtém o setor de acesso do funcionário
+    const setorAcesso = funcionario.setor; // Obtém o setor de acesso do funcionário
 
     // Verificar se o tipo do novo produto é o mesmo do setor de acesso do funcionário
     const { nome, artista, genero, anoLancamento, preco, tipo } = req.body;
@@ -68,7 +69,7 @@ exports.criarEstoque = async (req, res) => {
       genero,
       anoLancamento,
       preco,
-      tipo,
+      formato,
     });
     res.status(201).json(newProduct);
   } catch (error) {
@@ -85,7 +86,7 @@ exports.excluirEstoque = async (req, res) => {
       return res.status(403).json({ error: 'Acesso não autorizado para funcionários' });
     }
 
-    const setorAcesso = funcionario.acessoSetor; // Obtém o setor de acesso do funcionário
+    const setorAcesso = funcionario.setor; // Obtém o setor de acesso do funcionário
 
     const productId = req.params.id;
     const produto = await Produto.findByPk(productId);
@@ -115,7 +116,7 @@ exports.listarEstoque = async (req, res) => {
       return res.status(403).json({ error: 'Acesso não autorizado para funcionários' });
     }
 
-    const setorAcesso = funcionario.acessoSetor; // Obtém o setor de acesso do funcionário
+    const setorAcesso = funcionario.setor; // Obtém o setor de acesso do funcionário
 
     const produtos = await Produto.findAll({ where: { tipo: setorAcesso } });
 

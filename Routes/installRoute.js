@@ -12,16 +12,19 @@ router.get('/', async (req, res) => {
         nome: 'Funcionario1',
         email: 'funcionario1@funcionario.com',
         senha: 'senha123',
+        setor: 'DVD' 
       },
       { 
         nome: 'Funcionario2',
         email: 'funcionario2@funcionario.com',
         senha: 'senha456',
+        setor: 'CD' 
       },
       { 
         nome: 'Funcionario3',
         email: 'funcionario3@funcionario.com',
         senha: 'senha789',
+        setor: 'vinil' 
       }
     ]);
 
