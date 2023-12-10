@@ -39,6 +39,34 @@ exports.getAllProducts = async (req, res) => {
       offset,
     });
 
+    // Lógica para aplicar o desconto de 10% se a data atual tiver dia e mês iguais (ex: 09/09; 12/12, 06/06)
+    const applyDiscount = (products) => {
+      const currentDate = new Date();
+      const currentDay = currentDate.getDate();
+      const currentMonth = currentDate.getMonth() + 1;
+    
+      const isSameDayMonth = currentDay === currentMonth;
+    
+      if (!isSameDayMonth) {
+        return products;
+      }
+    
+      return products.map(product => {
+        const discountPrice = product.preco * 0.9;
+        return { ...product.dataValues, precoComDesconto: discountPrice };
+      });
+    };
+    
+    exports.applyDiscount = async (req, res) => {
+      try {
+        const products = await Produto.findAll();
+        const productsWithDiscount = applyDiscount(products);
+        res.status(200).json({ products: productsWithDiscount });
+      } catch (error) {
+        res.status(500).json({ error: 'Erro ao aplicar desconto nos produtos' });
+      }
+    };
+
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ error: error.message });
