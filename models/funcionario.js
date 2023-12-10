@@ -4,8 +4,8 @@ const sequelize = require('../config/database');
 const Usuario = require('./Usuario');
 
 const Funcionario = sequelize.define('Funcionario', {
-  acessoSetor: {
-    type: DataTypes.STRING,
+  setor: {
+    type: DataTypes.ENUM('DVD', 'CD', 'vinil'),
     allowNull: false,
   },
 });
