@@ -1,6 +1,15 @@
 const Funcionario = require('../models/funcionario');
 const Usuario = require('../models/Usuario');
 
+exports.criarFuncionario = async (req, res) => {
+  try {
+    const { setor, UsuarioId } = req.body;
+    const novoFuncionario = await Funcionario.create({ setor, UsuarioId });
+    res.status(201).json({ message: 'Funcionário criado com sucesso', funcionario: novoFuncionario });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao criar funcionário' });
+  }
+};
 
 exports.atualizarEstoque = async (req, res) => {
   try {

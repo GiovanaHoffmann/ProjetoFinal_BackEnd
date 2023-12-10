@@ -7,26 +7,16 @@ const Gerente = require('../models/gerente');
 
 exports.login = async (req, res) => {
   try {
-    const { email, senha, userType } = req.body;
+    const { email, senha } = req.body;
 
-    let model;
-    if (userType === 'usuario') {
-      model = Usuario;
-    } else if (userType === 'funcionario') {
-      model = Funcionario;
-    } else if (userType === 'gerente') {
-      model = Gerente;
-    } else {
-      return res.status(400).json({ error: 'Tipo de usuário inválido' });
-    }
+    // Encontrar o usuário pelo email
+    const usuario = await Usuario.findOne({ where: { email } });
 
-    const usuario = await model.findOne({ where: { email } });
-
-    if (!usuario || !(await bcrypt.compare(senha, usuario.senha))) {
+    if (!usuario || usuario.senha !== senha) {
       return res.status(401).json({ error: 'Credenciais inválidas.' });
     }
 
-    const token = jwt.sign({ userId: usuario.id, userType }, secretKey);
+    const token = jwt.sign({ userId: usuario.id, userType: usuario.tipo }, secretKey);
 
     res.json({ token });
   } catch (error) {

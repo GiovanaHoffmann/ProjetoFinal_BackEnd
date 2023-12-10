@@ -1,4 +1,3 @@
-//const { Sequelize, sequelize } = require('C:.\ProjetoFinal_BackEnd\app.js');
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Usuario = require('./Usuario');

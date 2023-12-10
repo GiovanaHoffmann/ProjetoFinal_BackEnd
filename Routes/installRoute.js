@@ -10,47 +10,44 @@ router.get('/', async (req, res) => {
     await Funcionario.bulkCreate([
       { 
         nome: 'Funcionario1',
-        email: 'funcionario1@example.com',
+        email: 'funcionario1@funcionario.com',
         senha: 'senha123',
-        setor: 'DVD' 
       },
       { 
         nome: 'Funcionario2',
-        email: 'funcionario2@example.com',
+        email: 'funcionario2@funcionario.com',
         senha: 'senha456',
-        setor: 'CD' 
       },
       { 
         nome: 'Funcionario3',
-        email: 'funcionario3@example.com',
+        email: 'funcionario3@funcionario.com',
         senha: 'senha789',
-        setor: 'vinil' 
       }
     ]);
 
      // Criação do gerente padrão
-     const novoUsuarioAdmin = await Usuario.create({
+     const novoUsuarioAdmin = await Gerente.create({
       nome: 'Admin',
-      email: 'admin@example.com',
+      email: 'admin@gerente.com',
       senha: 'admin123',
       isAdmin: true,
     });
 
-    const novoGerente = await Gerente.create({ UsuarioId: novoUsuarioAdmin.id });
+    //const novoGerente = await Gerente.create({ UsuarioId: novoUsuarioAdmin.id });
 
     await Gerente.create({});
-    await Product.sync();
+    await Product.sync({ force: true });
     await Product.bulkCreate([
-      { nome: 'Taylor Swift', artista: 'Taylor Swift', genero: 'Country', anoLancamento: 2006, preco: 10.99, tipo: 'cd' },
-      { nome: 'Fearless', artista: 'Taylor Swift', genero: 'Country', anoLancamento: 2008, preco: 12.99, tipo: 'dvd' },
-      { nome: 'Speak Now', artista: 'Taylor Swift', genero: 'Country pop', anoLancamento: 2010, preco: 10.99, tipo: 'vinil' },
-      { nome: 'Red', artista: 'Taylor Swift', genero: 'Pop, pop rock', anoLancamento: 2012, preco: 12.99, tipo: 'dvd' },
-      { nome: '1989', artista: 'Taylor Swift', genero: 'Synth-pop', anoLancamento: 2014, preco: 10.99, tipo: 'vinil' },
-      { nome: 'Reputation', artista: 'Taylor Swift', genero: 'pop', anoLancamento: 2017, preco: 12.99, tipo: 'cd' },
-      { nome: 'Lover', artista: 'Taylor Swift', genero: 'pop', anoLancamento: 2019, preco: 10.99, tipo: 'vinil' },
-      { nome: 'Folklore', artista: 'Taylor Swift', genero: 'folk', anoLancamento: 2020, preco: 12.99, tipo: 'dvd' },
-      { nome: 'Evermore', artista: 'Taylor Swift', genero: 'folk', anoLancamento: 2020, preco: 10.99, tipo: 'cd' },
-      { nome: 'Midnights', artista: 'Taylor Swift', genero: 'pop', anoLancamento: 2022, preco: 12.99, tipo: 'dvd' },
+      { nome: 'Taylor Swift', artista: 'Taylor Swift', genero: 'Country', anoLancamento: 2006, preco: 10.99, formato: 'cd' },
+      { nome: 'Fearless', artista: 'Taylor Swift', genero: 'Country', anoLancamento: 2008, preco: 12.99, formato: 'dvd' },
+      { nome: 'Speak Now', artista: 'Taylor Swift', genero: 'Country pop', anoLancamento: 2010, preco: 10.99, formato: 'vinil' },
+      { nome: 'Red', artista: 'Taylor Swift', genero: 'Pop, pop rock', anoLancamento: 2012, preco: 12.99, formato: 'dvd' },
+      { nome: '1989', artista: 'Taylor Swift', genero: 'Synth-pop', anoLancamento: 2014, preco: 10.99, formato: 'vinil' },
+      { nome: 'Reputation', artista: 'Taylor Swift', genero: 'pop', anoLancamento: 2017, preco: 12.99, formato: 'cd' },
+      { nome: 'Lover', artista: 'Taylor Swift', genero: 'pop', anoLancamento: 2019, preco: 10.99, formato: 'vinil' },
+      { nome: 'Folklore', artista: 'Taylor Swift', genero: 'folk', anoLancamento: 2020, preco: 12.99, formato: 'dvd' },
+      { nome: 'Evermore', artista: 'Taylor Swift', genero: 'folk', anoLancamento: 2020, preco: 10.99, formato: 'cd' },
+      { nome: 'Midnights', artista: 'Taylor Swift', genero: 'pop', anoLancamento: 2022, preco: 12.99, formato: 'dvd' },
     ]);
 
     res.status(200).json({ message: 'Perfis criados e Banco de dados instalado e populado com sucesso.' });

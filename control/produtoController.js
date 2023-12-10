@@ -1,7 +1,7 @@
 const Product = require('../models/produto');
 
 // novo produto
-/*exports.createProduct = async (req, res) => {
+exports.createProduct = async (req, res) => {
   try {
     const { nome, artista, genero, ano_lancamento, formato, preco } = req.body;
     const newProduct = await Product.create({
@@ -9,14 +9,14 @@ const Product = require('../models/produto');
       artista,
       genero,
       ano_lancamento,
-      formato,
       preco,
+      formato,
     });
     res.status(201).json(newProduct);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};*/
+};
 
 // listar produtos
 exports.getAllProducts = async (req, res) => {
@@ -59,7 +59,7 @@ exports.getAllProducts = async (req, res) => {
     
     exports.applyDiscount = async (req, res) => {
       try {
-        const products = await Produto.findAll();
+        const products = await Product.findAll();
         const productsWithDiscount = applyDiscount(products);
         res.status(200).json({ products: productsWithDiscount });
       } catch (error) {
@@ -90,7 +90,7 @@ exports.getProductById = async (req, res) => {
 };
 
 // atualizar pela id
-/*exports.updateProduct = async (req, res) => {
+exports.updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;
     const { nome, artista, genero, ano_lancamento, tipo, preco } = req.body;
@@ -125,5 +125,4 @@ exports.deleteProduct = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};*/
-
+};

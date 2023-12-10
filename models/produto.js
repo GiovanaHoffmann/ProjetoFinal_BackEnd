@@ -29,7 +29,7 @@ const Produto = sequelize.define('Produto', {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    tipo: {
+    formato: {
       type: DataTypes.ENUM('vinil', 'dvd', 'cd'),
       allowNull: false,
     },

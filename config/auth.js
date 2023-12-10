@@ -1,6 +1,5 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-module.exports = {
-    secret: process.env.SECRET,
-}
+const secret = process.env.SECRET || 'defaultSecret';
+module.exports = secret;
