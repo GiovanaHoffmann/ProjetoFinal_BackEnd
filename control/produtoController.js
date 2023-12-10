@@ -3,13 +3,13 @@ const Product = require('../models/produto');
 // novo produto
 exports.createProduct = async (req, res) => {
   try {
-    const { nome, artista, genero, ano_lancamento, tipo, preco } = req.body;
+    const { nome, artista, genero, ano_lancamento, formato, preco } = req.body;
     const newProduct = await Product.create({
       nome,
       artista,
       genero,
       ano_lancamento,
-      tipo,
+      formato,
       preco,
     });
     res.status(201).json(newProduct);
@@ -21,12 +21,30 @@ exports.createProduct = async (req, res) => {
 // listar produtos
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.findAll();
+    const { limite, pagina } = req.query; //Parâmetros de consulta na URL
+
+    //Converte os valores para números inteiros
+    const limit = parseInt(limite);
+    const offset = parseInt(limite) * (parseInt(pagina) - 1);
+
+    // Validar os valores de limite (5, 10 ou 30)
+    const allowedLimits = [5, 10, 30];
+    if (!allowedLimits.includes(limit)) {
+      return res.status(400).json({ error: 'Limite inválido' });
+    }
+
+    // Consulta ao banco de dados com os parâmetros de limite e offset
+    const products = await Product.findAll({
+      limit,
+      offset,
+    });
+
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // achar pela id
 exports.getProductById = async (req, res) => {
