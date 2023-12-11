@@ -155,6 +155,34 @@
 
 /**
  * @swagger
+ * /funcionario/login:
+ *   post:
+ *     summary: Login do funcionário
+ *     description: Endpoint para fazer login como funcionário
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               senha:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login bem-sucedido
+ *       401:
+ *         description: Credenciais inválidas
+ *       404:
+ *         description: Funcionário não encontrado
+ *       500:
+ *         description: Erro ao fazer login
+ */
+
+/**
+ * @swagger
  * /funcionarios/estoque:
  *   get:
  *     summary: Listar produtos no estoque
@@ -185,6 +213,36 @@
  *       # Adicione outras respostas conforme necessário
  *     # Adicione outros métodos (PUT, DELETE) conforme necessário para atualizar e excluir produtos
  */
+
+
+/**
+ * @swagger
+ * /gerente/login:
+ *   post:
+ *     summary: Login do gerente
+ *     description: Endpoint para fazer login como gerente
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               senha:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login bem-sucedido
+ *       401:
+ *         description: Credenciais inválidas
+ *       404:
+ *         description: Gerente não encontrado
+ *       500:
+ *         description: Erro ao fazer login
+ */
+
 
 /**
  * @swagger

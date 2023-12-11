@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const secretKey = require('../config/auth');
 const Produto = require('../models/produto');
 const Funcionario = require('../models/funcionario');
 const Gerente = require('../models/gerente');
@@ -92,5 +95,29 @@ exports.criarGerente = async (req, res) => {
     res.status(201).json({ message: 'Gerente criado com sucesso', gerente: novoGerente });
   } catch (error) {
     res.status(500).json({ error: 'Erro ao criar gerente' });
+  }
+};
+
+exports.loginGerente = async (req, res) => {
+  try {
+    const { email, senha } = req.body;
+    const gerente = await Gerente.findOne({ email });
+
+    if (!gerente) {
+      return res.status(404).json({ error: 'Gerente não encontrado' });
+    }
+
+    const passwordMatch = await bcrypt.compare(senha, gerente.senha);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Credenciais inválidas' });
+    }
+
+    // Se as credenciais estiverem corretas, gerar o token JWT
+    const token = jwt.sign({ gerenteId: gerente.id, email: gerente.email }, secretKey, { expiresIn: '1h' });
+
+    res.status(200).json({ message: 'Login bem-sucedido', token });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao fazer login' });
   }
 };

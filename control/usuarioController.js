@@ -1,5 +1,7 @@
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Usuario = require('../models/Usuario');
+const secretKey = require('../config/auth');
 
 exports.getUserProfile = async (req, res) => {
   try {
@@ -25,6 +27,8 @@ exports.registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(senha, 10); // Hash da senha com salt de 10 rounds
 
     const newUser = await Usuario.create({ nome, email, senha: hashedPassword });
+    // Após o usuário ser criado com sucesso, gerar o token JWT
+    const token = jwt.sign({ userId: newUser.id, email: newUser.email }, secretKey, { expiresIn: '1h' });
     res.status(201).json({ message: 'Usuário registrado com sucesso', user: newUser });
   } catch (error) {
     res.status(500).json({ error: 'Erro ao criar usuário' });
@@ -34,20 +38,22 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, senha } = req.body;
-    const user = await Usuario.findOne({ where: { email } });
+    const user = await Usuario.findOne({ email });
 
     if (!user) {
-      res.status(401).json({ message: 'Credenciais inválidas' });
-      return;
+      return res.status(404).json({ error: 'Usuário não encontrado' });
     }
 
     const passwordMatch = await bcrypt.compare(senha, user.senha);
+
     if (!passwordMatch) {
-      res.status(401).json({ message: 'Credenciais inválidas' });
-      return;
+      return res.status(401).json({ error: 'Credenciais inválidas' });
     }
 
-    res.status(200).json({ message: 'Login bem-sucedido' });
+    // Se as credenciais estiverem corretas, gerar o token JWT
+    const token = jwt.sign({ userId: user.id, email: user.email }, secretKey, { expiresIn: '1h' });
+
+    res.status(200).json({ message: 'Login bem-sucedido', token });
   } catch (error) {
     res.status(500).json({ error: 'Erro ao fazer login' });
   }
